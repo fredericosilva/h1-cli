@@ -1,7 +1,7 @@
-Przegląd
-========
+h1-cli
+======
 
-h1-client jest konsolowym narzędziem przeznaczonym do zarządzania infrastrukturą chmury HyperOne. Możesz go wykorzystywać zarówno do własnych prac administracyjnych, jak również podczas tworzenia  skryptów automatyzujących.
+h1-cli jest konsolowym narzędziem przeznaczonym do zarządzania infrastrukturą chmury HyperOne. Możesz go wykorzystywać zarówno do własnych prac administracyjnych, jak również podczas tworzenia  skryptów automatyzujących.
 
 Co to chmura HyperOne?
 ----------------------
@@ -25,12 +25,14 @@ Przegląd funkcjonalności
 Instalacja
 ----------
 
-Kopia binarna oprogramowania jest dostępna w zakładce "`Releases`_" w repozytorium.
+Instalacja zasadniczo ogranicza się pobrania wykonywalnej kopii oprogramowania, która jest dostępna w zakładce "`Releases`_" repozytorium.
 
 W środowisku systemu Linux
 ##############################
 
-Uruchom dostarczony plik binarny po nadaniu uprawnień wykonywalnych::
+Uruchom dostarczony plik binarny po nadaniu uprawnień wykonywalnych:
+
+.. code-block:: console
 
     $ chmod +x h1_client.bin
     $ ./h1_client.bin
@@ -39,15 +41,19 @@ Aplikacja powinna działać poprawnie bez instalacji dodatkowych bibliotek / pak
 
 Jeżeli zamierzasz z oprogramowania stale korzystać możesz dokonać instalacja dla użytkownika lub na poziomie systemu.
 
-Instalacja dla użytkownika może zostać przeprowadzona poprzez::
+Instalacja dla użytkownika może zostać przeprowadzona poprzez:
 
-    $ cp h1_client.bin ~/.local/bin/h1
-    $ h1
+.. code-block:: console
 
-Instalacja na poziomie sytemu może zostać przeprowadzona poprzez::
+   $ cp h1_client.bin ~/.local/bin/h1
+   $ h1
 
-    $ cp h1_client.bin /usr/local/bin/h1
-    $ h1
+Instalacja na poziomie sytemu może zostać przeprowadzona poprzez:
+
+.. code-block:: console
+
+   $ cp h1_client.bin /usr/local/bin/h1
+   $ h1
 
 W środowisku systemu Windows
 ################################
