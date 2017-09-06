@@ -30,9 +30,7 @@ Instalacja zasadniczo ogranicza się pobrania wykonywalnej kopii oprogramowania,
 W środowisku systemu Linux
 ##############################
 
-Uruchom dostarczony plik binarny po nadaniu uprawnień wykonywalnych:
-
-.. code-block:: console
+Uruchom dostarczony plik binarny po nadaniu uprawnień wykonywalnych::
 
     $ chmod +x h1_client.bin
     $ ./h1_client.bin
@@ -41,16 +39,12 @@ Aplikacja powinna działać poprawnie bez instalacji dodatkowych bibliotek / pak
 
 Jeżeli zamierzasz z oprogramowania stale korzystać możesz dokonać instalacja dla użytkownika lub na poziomie systemu.
 
-Instalacja dla użytkownika może zostać przeprowadzona poprzez:
-
-.. code-block:: console
+Instalacja dla użytkownika może zostać przeprowadzona poprzez::
 
    $ cp h1_client.bin ~/.local/bin/h1
    $ h1
 
-Instalacja na poziomie sytemu może zostać przeprowadzona poprzez:
-
-.. code-block:: console
+Instalacja na poziomie sytemu może zostać przeprowadzona poprzez::
 
    $ cp h1_client.bin /usr/local/bin/h1
    $ h1
@@ -72,17 +66,13 @@ W środowisku systemu macOS
 Użycie
 ------
 
-Polecenia zbudowane są z następujących składowych:
-
-.. code-block:: console
+Polecenia zbudowane są z następujących składowych::
 
     $ h1 [grupa] polecenie [[argument] ...]
 
 Struktura ta powtarza się w wszystkich poleceniach aplikacji.
 
-Aby rozpocząć prace powinieneś zalogować się poprzez polecenie:
-
-.. code-block:: console
+Aby rozpocząć prace powinieneś zalogować się poprzez polecenie::
 
     $ h1 login {{adres_email}}
 
@@ -101,15 +91,11 @@ Dane uwierzytelniające zostały zapisane na platformie Linux / macOS w ``$HOME/
     Gdzie zapisują się dane na platformie Windows?
     Czy poprawna ścieżka jest dla platformy macOS?
 
-Jeżeli wykorzystujesz więcej niż 1 tenant musisz dokonać wyboru aktywnie używanego poprzez pobranie identyfikatora właściwego:
-
-.. code-block:: console
+Jeżeli wykorzystujesz więcej niż 1 tenant musisz dokonać wyboru aktywnie używanego poprzez pobranie identyfikatora właściwego::
 
     $ h1 tenant list --output table
 
-Następnie zatwierdzenia tego wyboru:
-
-.. code-block:: console
+Następnie zatwierdzenia tego wyboru::
 
     $ h1 tenant select {{tenant_id}}
 
@@ -117,10 +103,7 @@ Następnie zatwierdzenia tego wyboru:
 Utworzenie wirtualnej maszyny
 -----------------------------
 
-Poniżej przedstawiona jest przykładowa sesja przedstawiająca podstawową akcje - utworzenie wirtualnej maszyny:
-
-.. code-block:: console
-   :emphasize-lines: 11,16,21-27,48,86
+Poniżej przedstawiona jest przykładowa sesja przedstawiająca podstawową akcje - utworzenie wirtualnej maszyny::
 
    $ h1 vm list --output table
    ID                        NAME                       FLAVOUR    STATE    PROCESSING
