@@ -15,7 +15,7 @@ Dostępna jest także kontrola formatowania wyjścia JSON z wykorzystaniem JMSEP
 
 Przykładowo::
 
-    $ h1 vm list --output "[?state=='Running'].{Name: name, Image: sourceImage.name}"
+    $ h1 vm list --query "[?state=='Running'].{Name: name, Image: sourceImage.name}"
 
     [
       {
