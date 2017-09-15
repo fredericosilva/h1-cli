@@ -3,23 +3,16 @@ h1-cli
 
 h1-cli jest konsolowym narzędziem przeznaczonym do zarządzania infrastrukturą chmury HyperOne. Możesz go wykorzystywać zarówno do własnych prac administracyjnych, jak również podczas tworzenia  skryptów automatyzujących.
 
-Co to chmura HyperOne?
-----------------------
-
- .. todo::
-
-    Wprowadzenie opisu zgodnego z polityką marketingową.
-
 Przegląd funkcjonalności
 ------------------------
 
 * kontrola wszystkich zasobów udostępnianych przez panel administracyjny, w szczególności:
 
-  * zmiana konfiguracji maszyn wirtualnych - ich tworzenie, wyłączanie i kasowanie,
+  * zmiana konfiguracji serwerów - ich tworzenie, wyłączanie i kasowanie,
   * manipulacja adresami IP - ich przepinanie, modyfikacja rekordu PTR,
-  * modyfikowanie dysków - utworzenie, odłączenie / dołączenie od wirtualnej maszyny, rozszerzenie, wykonanie migawki.
+  * modyfikowanie dysków - utworzenie, odłączenie / dołączenie od serwera, rozszerzenie, wykonanie migawki.
 
-* różnorodne formy uwierzytelniania - zob. :ref:`authentication`
+* różnorodne formy uwierzytelniania,
 * wybór formatu wyjścia, w celu wykorzystania go w dodatkowych narzędziach.
 
 Instalacja
@@ -100,10 +93,10 @@ Następnie zatwierdzenia tego wyboru::
     $ h1 tenant select {{tenant_id}}
 
 
-Utworzenie wirtualnej maszyny
------------------------------
+Utworzenie serwera
+#############################
 
-Poniżej przedstawiona jest przykładowa sesja przedstawiająca podstawową akcje - utworzenie wirtualnej maszyny::
+Poniżej przedstawiona jest przykładowa sesja przedstawiająca podstawową akcje - utworzenie serwera::
 
    $ h1 vm list --output table
    ID                        NAME                       FLAVOUR    STATE    PROCESSING
@@ -195,6 +188,71 @@ Poniżej przedstawiona jest przykładowa sesja przedstawiająca podstawową akcj
    58c57a62f059b95da6a4acce  ada.ptr.jawne.info.pl      a1.small   Running  false
    5962144c3ad55647634e8cea  zyta.ptr.jawne.info.pl     a1.micro   Running  false
    58bb8b5657f1a0b3a2392932  urszula.ptr.jawne.info.pl  a1.medium  Running  false
+
+Omówienie parametrów zasadniczego polecenia ``h1 vm create --name vm-tutorial --sshkey 59b0369284e468875f8a59d1 --image 59af47f1bd02f5a8ef9cd700 --type a1.micro --os-disk-name vm-tutorial-0 --os-disk-type archive --os-disk-size 100``:
+
+* ``--name vm-tutorial`` - własny identyfikator użytkownika dla serwera,
+* ``--sshkey 59b0369284e468875f8a59d1`` - identyfikator klucza SSH możliwy do uzyskania poprzez ``h1 credentials list``,
+* ``--image 59af47f1bd02f5a8ef9cd700`` - identyfikator obrazu systemu możliwy do uzyskania popzez ``h1 image list --recommended --output table``,
+* ``--type a1.micro`` - identyfikator typu instancji możliwy do uzyskania poprzez ``h1 service list --query "[?resource=='vm']"``,
+* ``--os-disk-name vm-tutorial-0`` - własny identyfikator dysku systemowego instancji,
+* ``--os-disk-type archive`` - typ dysku do uzyskania poprzez ``h1 service list --query "[?resource=='disk']"``,
+* ``--os-disk-size 100`` - rozmiar dołączonego dysku.
+
+Klucz SSH jest dostępny po wcześniejszym zaimportowaniu go np. poprzez polecenie ``h1 credentials add --sshkey-file ~/.ssh/id-rsa.pub --name $(hostname)``.
+
+Zarządzanie serwerami
+#####################
+
+Poniżej przedstawiono podstawowe akcje możliwe do wykonania z serwerami w postaci przykładowych poleceń:
+
+* ``h1 vm list`` - wypisuje istniejące serwery,
+* ``h1 vm list vm-tutorial`` - wypisuje szczegółowe informacje o instancji,
+* ``h1 vm stop vm-tutorial`` - zatrzymuje serwery bez jej usuwania,
+* ``h1 vm start vm-tutorial`` - uruchamia serwery,
+* ``h1 vm turnoff vm-tutorial`` - wyłącza serwery bez jej usuwania,
+* ``h1 vm destroy vm-tutorial`` - kasuje serwery.
+
+Możliwe jest także wprowadzanie zmian dotyczących dysków podłączonych do serwera:
+
+* ``h1 vm disk attach --vm-id vm-tutorial --disk-id vm-disk-2`` - dołącza do instancji wcześniej utworzony dysk np. poprzez ``h1 disk create --name 'vm-disk-2' --type ssd --size 1``,
+* ``h1 vm disk detach --vm-id vm-tutorial --disk-id vm-disk-2`` - odłącza od instancji dysk bez usuwania go.
+
+Operacje te nie wymagają wyłączenia wirtualnych maszyn.
+
+Zarządzanie dyskami
+###################
+
+Dyski stanowią nośniki danych dla serwerów. Możliwe jest ich przełączanie i modyfikowanie w trakcie pracy maszyn wirtualnych.
+
+Poniżej przedstawiono podstawowe akcje możliwe do wykonania z dyskami w postaci przykładowych poleceń:
+
+* ``h1 disk list --output table`` - wypisuje dostępne dyski
+* ``h1 disk show vm-disk-2`` - wypisuje parametry dysku ``vm-disk-2``, w tym identyfikator serwera,
+* ``h1 disk delete vm-disk-2`` - usuwa dysk ``vm-disk-2``,
+* ``h1 disk rename vm-disk-2 --newname vm-disk-new`` - zmienia nazwę dysku ``vm-disk-2`` na ``vm-disk-new``,
+* ``h1 disk create --name vm-disk-4 --type ssd --size 25`` - tworzy dysk SSD o rozmiarze 25 GB i nazwie ``vm-disk-4``,
+* ``h1 disk resize vm-disk-4 --size 30`` - rozszerza dysk ``vm-disk-4`` do rozmiaru 30 GB,
+
+Rozszerzenie dysku nie jest możliwe w przypadku dysków systemowych maszyn uruchomionych. W przypadku dysku systemowego konieczne jest wcześniejsze wyłączenie serwera. W pozostałych przypadkach możliwe jest rozszerzenie dysku w trakcie pracy maszyny. Dla wykorzystania pełni potencjału zalecamy wykorzystanie LVM dla dysków niesystemowych.
+
+Zarządzanie obrazami
+####################
+
+Możliwe jest utworzenie obrazków instancji, a także nimi zarządzenie. Obrazy pozwalają na utworzenie serwerów z identyczną konfiguracjąlub lub utworzenie tymczasowej kopii instancji np. dla zabezpieczenia stanu systemu przed znacznymi aktualizacjami.
+
+Poniżej przedstawiono podstawowe akcje możliwe do wykonania z obrazami w postaci przykładowych poleceń:
+
+* ``h1 image create --vm "vm-tutorial" --name "vm-tutorial-$(date +"%Y-%m-%d")"`` - tworzy obraz serwera i zapisuje go z podaną nazwą,
+* ``h1 image list`` - wypisuje twoje obrazy,
+* ``h1 image list --recommended`` - wypisuje nasze rekomendowane obrazy,
+* ``h1 image delete vm-tutorial-2017-09-15`` - kasuje obraz ``vm-tutorial-2017-09-15``,
+* ``h1 image show vm-tutorial-2017-09-15`` - wyświetla informacje o obrazie ``vm-tutorial-2017-09-15``,
+
+Zarządzanie innymi zasobami
+###########################
+
+W przypadku pozostałych zasobów warto korzystać z przełącznika ``h1 -h``, który w sposób pełny i najbardziej aktualny dokumentuje możliwości klienta.
 
 Zgłaszanie problemów i uwag
 ---------------------------
