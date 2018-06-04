@@ -25,7 +25,7 @@ const options = {
       , required: true
     }
   , 'source-file': {
-        description: 'import disk path'
+        description: 'Disk image file in .vhdx format to be imported'
       , type: 'string'
       , required: false
     }
