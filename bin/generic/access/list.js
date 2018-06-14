@@ -30,4 +30,4 @@ function handleAccessList(resource) {
         return args.helpers.api.get(`${resource.url(args)}/${args[resource.name]}/accessrights`)
             .then(result => args.helpers.sendOutput(args, result));
     };
-};
+}
